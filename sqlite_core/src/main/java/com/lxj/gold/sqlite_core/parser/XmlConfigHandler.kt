@@ -14,10 +14,12 @@ import com.lxj.gold.sqlite_core.parser.model.XmlConfigModel.Companion.LABEL_GOLD
 import com.lxj.gold.sqlite_core.parser.model.XmlConfigModel.Companion.LABEL_TABLE
 import com.lxj.gold.sqlite_core.utils.CommonUtil
 import org.xml.sax.Attributes
+import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
 import java.util.ArrayList
 
 /**
+ *
  * Created by lixinjie on 2019/8/1
  * 解析XML配置文档的处理器，用于SAX解析
  */
@@ -28,6 +30,7 @@ class XmlConfigHandler: DefaultHandler() {
     private var mTableMap: ArrayMap<String, TableModel>? = null
     private var mDbList: ArrayList<DbModel>? = null
 
+    @Throws(SAXException::class)
     override fun startElement(uri: String?, localName: String?, qName: String?, attributes: Attributes?) {
         super.startElement(uri, localName, qName, attributes)
 //        进入根元素标签时检查XML配置文件是否符合标准，不符合标准将抛出异常
@@ -35,9 +38,7 @@ class XmlConfigHandler: DefaultHandler() {
             mDbList = ArrayList()
             isFirstElement = false
         }
-        if (mTableMap == null) {
-            mTableMap = ArrayMap()
-        }
+        if (mTableMap == null)  mTableMap = ArrayMap()
 
 //        解析<database>开始标签
         parseStartDatabaseLabel(localName, attributes)
@@ -45,6 +46,7 @@ class XmlConfigHandler: DefaultHandler() {
         parseStartTableLabel(localName, attributes)
     }
 
+    @Throws(SAXException::class)
     override fun endElement(uri: String?, localName: String?, qName: String?) {
         super.endElement(uri, localName, qName)
 //        解析<table>结束标签
@@ -58,11 +60,8 @@ class XmlConfigHandler: DefaultHandler() {
      * @param theFirstElementName   XML文档的首个开始标签名称
      * @return                      是否符合标准
      */
-    private fun checkIsLegalConfigXmlFile(theFirstElementName: String?): Boolean{
-        if(!TextUtils.isEmpty(theFirstElementName) || LABEL_GOLD_SQLITE == theFirstElementName)
-            return true
-        else throw IllegelConfigXmlFileException()
-    }
+    private fun checkIsLegalConfigXmlFile(theFirstElementName: String?): Boolean =
+        if(!TextUtils.isEmpty(theFirstElementName) && LABEL_GOLD_SQLITE == theFirstElementName) true else throw IllegelConfigXmlFileException()
 
     /**
      * 解析<database>开始标签
@@ -76,9 +75,11 @@ class XmlConfigHandler: DefaultHandler() {
             val dbVersion = attributes?.getValue(ATTR_VERSION)
             val dbExternalPath = attributes?.getValue(ATTR_EXTERNAL_PATH)
 
-            mDbModel!!.setDbName(dbName)
-            mDbModel!!.setDbVersion(CommonUtil.transformStringToInt(dbVersion))
-            mDbModel!!.setExternalPath(dbExternalPath)
+            mDbModel?.run {
+                setDbName(dbName)
+                setDbVersion(CommonUtil.transformStringToInt(dbVersion))
+                setExternalPath(dbExternalPath)
+            }
         }
     }
 
@@ -90,11 +91,13 @@ class XmlConfigHandler: DefaultHandler() {
     private fun parseStartTableLabel(labelName: String?, attributes: Attributes?){
         if(!TextUtils.isEmpty(labelName) && LABEL_TABLE == labelName){
             mTableModel = TableModel()
-            val tableClass = attributes!!.getValue(ATTR_CLASS)
+            val tableClass = attributes?.getValue(ATTR_CLASS)
             val tableName = CommonUtil.getTableNameFromClassPath(tableClass)
 
-            mTableModel!!.setClassName(tableClass)
-            mTableModel!!.setTableName(tableName)
+            mTableModel?.run {
+                setClassName(tableClass)
+                setTableName(tableName)
+            }
         }
     }
 
@@ -104,8 +107,10 @@ class XmlConfigHandler: DefaultHandler() {
      */
     private fun parseEndDatabaseLabel(labelName: String?){
         if (!TextUtils.isEmpty(labelName) && LABEL_DATABASE == labelName) {
-            mDbModel!!.setTableMap(mTableMap!!)
-            mDbList!!.add(mDbModel!!)
+            mDbModel?.run {
+                setTableMap(mTableMap)
+                mDbList?.add(this)
+            }
             mTableMap = null
         }
     }
@@ -116,14 +121,12 @@ class XmlConfigHandler: DefaultHandler() {
      */
     private fun parseEndTableLabel(labelName: String?){
         if (!TextUtils.isEmpty(labelName) && LABEL_TABLE == labelName) {
-            mTableMap!![mTableModel!!.getTableName()] = mTableModel
+            mTableMap?.set(mTableModel?.getTableName(), mTableModel)
         }
     }
 
     /**
      * 获取数据库列表
      */
-    fun getDbList(): List<DbModel>? {
-        return mDbList
-    }
+    fun getDbList(): List<DbModel>? = mDbList
 }

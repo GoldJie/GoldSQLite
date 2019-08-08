@@ -26,41 +26,31 @@ class DbModel {
 //    数据库中包含的列表
     private var mTableMap: Map<String, TableModel>? = null
 
-    fun getDbName(): String? {
-        return mDbName
-    }
+    fun getDbName(): String? = mDbName
 
     fun setDbName(dbName: String?) {
         this.mDbName = dbName
     }
 
-    fun getDbVersion(): Int {
-        return mDbVersion
-    }
+    fun getDbVersion(): Int = mDbVersion
 
     fun setDbVersion(dbVersion: Int) {
         this.mDbVersion = dbVersion
     }
 
-    fun getExternalPath(): String? {
-        return mExternalPath
-    }
+    fun getExternalPath(): String? = mExternalPath
 
     fun setExternalPath(externalPath: String?) {
         this.mExternalPath = externalPath
     }
 
-    fun getTableMap(): Map<String, TableModel>? {
-        return mTableMap
-    }
+    fun getTableMap(): Map<String, TableModel>? = mTableMap
 
     fun setTableMap(tableMap: Map<String, TableModel>?) {
         this.mTableMap = tableMap
     }
 
-    fun getDbHelper(): DbHelper? {
-        return mDbHelper
-    }
+    fun getDbHelper(): DbHelper? = mDbHelper
 
     fun setDbHelper(dbHelper: DbHelper?) {
         this.mDbHelper = dbHelper

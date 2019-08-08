@@ -7,9 +7,11 @@ import java.lang.RuntimeException
  * Created by lixinjie on 2019/8/1
  * 无权限操作本地存储异常
  */
-class NoStoragePermissionException: RuntimeException{
+class NoStoragePermissionException:
+    RuntimeException("No permission about external storage.") {
     private val TAG = NoStoragePermissionException::class.simpleName
-    constructor(): super("No permission about external storage."){
+
+    init {
         Log.e(TAG, "No permission about external storage.")
     }
 }

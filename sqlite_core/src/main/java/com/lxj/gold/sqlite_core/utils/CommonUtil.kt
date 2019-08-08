@@ -49,7 +49,7 @@ object CommonUtil {
             bytes = output.toByteArray()
         } catch (e: Exception) {
             e.printStackTrace()
-            throw GoldSQLiteCommonException(e.message!!)
+            throw GoldSQLiteCommonException(e.message.toString())
         } finally {
             inputBuffered?.close()
             input?.close()
@@ -83,8 +83,8 @@ object CommonUtil {
      * 关闭游标(Kotlin化后这玩意儿好像没用了)
      * @param cursor 游标对象
      */
-    fun cloaseCursor(cursor: Cursor){
-        cursor.close()
+    fun cloaseCursor(cursor: Cursor?){
+        cursor?.close()
     }
 
     /**
@@ -92,7 +92,7 @@ object CommonUtil {
      * @param classPath     数据表实体类绝对路径（完整包名）
      * @return              数据表名
      */
-    fun getTableNameFromClassPath(classPath: String): String =
+    fun getTableNameFromClassPath(classPath: String?): String =
         if(!TextUtils.isEmpty(classPath)) getTableNameFromClass(Class.forName(classPath)) else throw TableEntityClassNotFoundException()
 
     /**
@@ -105,7 +105,7 @@ object CommonUtil {
 //        从注解中获取数据表名
         if (tableClass.isAnnotationPresent(TableName::class.java)) {
             val annotation = tableClass.getAnnotation(TableName::class.java)
-            tableName = annotation!!.tableName
+            tableName = annotation?.tableName?.let { annotation.tableName }.toString()
         }
         if(TextUtils.isEmpty(tableName)){
             throw TableEntityClassNotFoundException()

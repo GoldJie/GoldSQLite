@@ -7,9 +7,10 @@ import java.lang.RuntimeException
  * Created by lixinjie on 2019/8/1
  * 通用异常
  */
-class GoldSQLiteCommonException: RuntimeException {
+class GoldSQLiteCommonException(message: String) : RuntimeException(message) {
     private val TAG = GoldSQLiteCommonException::class.simpleName
-    constructor(message: String): super(message){
+
+    init {
         Log.e(TAG, message)
     }
 }

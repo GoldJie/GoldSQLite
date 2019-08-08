@@ -5,9 +5,6 @@ import com.lxj.gold.sqlite_core.dao.TableOperator
 /**
  * Created by lixinjie on 2019/8/1
  * XML配置标签对应的实体：数据表
- * @param mTableName        数据表名
- * @param mClassName        数据表对应实体类类型
- * @param mTableOperator    数据表操作者
  */
 class TableModel {
     companion object {
@@ -22,27 +19,22 @@ class TableModel {
 //    数据表操作者
     private var mTableOperator: TableOperator? = null
 
-    fun getClassName(): String? {
-        return mClassName
-    }
+    fun getClassName(): String? = mClassName
 
-    fun setClassName(className: String) {
+    fun setClassName(className: String?) {
         this.mClassName = className
     }
 
-    fun getTableName(): String? {
-        return mTableName
-    }
+    fun getTableName(): String? = mTableName
 
-    fun setTableName(tableName: String) {
+
+    fun setTableName(tableName: String?) {
         this.mTableName = tableName
     }
 
-    fun getTableOperator(): TableOperator? {
-        return mTableOperator
-    }
+    fun getTableOperator(): TableOperator? = mTableOperator
 
-    fun setTableOperator(tableOperator: TableOperator) {
+    fun setTableOperator(tableOperator: TableOperator?) {
         this.mTableOperator = tableOperator
     }
 }

@@ -7,9 +7,11 @@ import java.lang.RuntimeException
  * Created by lixinjie on 2019/8/1
  * Xml配置文件未找到异常
  */
-class XmlConfigFileNotFoundException: RuntimeException{
+class XmlConfigFileNotFoundException:
+    RuntimeException("The config XML file is not found. Please check your config file.") {
     private val TAG = XmlConfigFileNotFoundException::class.simpleName
-    constructor(): super("The config XML file is not found. Please check your config file."){
+
+    init {
         Log.e(TAG, "The config XML file is not found. Please check your config file.")
     }
 }
