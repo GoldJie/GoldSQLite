@@ -43,7 +43,7 @@ object DbConfigParser {
 //        获取资源管理器，读取资源中的配置文件
         val assetManager: AssetManager = context.assets
         // todo 后续可能考虑将此处资源文件的Path作为参数暴露出去
-        val fileNames: Array<String> = assetManager.list("")
+        val fileNames: Array<String> = assetManager.list("") as Array<String>
         for(name: String in fileNames){
             if(CONFIG_XML_FILE_NAME == name) return assetManager.open(name, AssetManager.ACCESS_BUFFER)
         }

@@ -22,7 +22,8 @@ object CommonUtil {
      * @return              int类型数字
      */
     fun transformStringToInt(integerStr: String?): Int =
-        if (!TextUtils.isEmpty(integerStr) && TextUtils.isDigitsOnly(integerStr)) Integer.valueOf(integerStr) else -1
+        if (!TextUtils.isEmpty(integerStr) && TextUtils.isDigitsOnly(integerStr))
+            Integer.valueOf(integerStr ?: "-1") else -1
 
     /**
      * Blob转换为Bytes数组
@@ -49,7 +50,7 @@ object CommonUtil {
             bytes = output.toByteArray()
         } catch (e: Exception) {
             e.printStackTrace()
-            throw GoldSQLiteCommonException(e.message.toString())
+            throw GoldSQLiteCommonException(e.message?: "fun transformBlobToBytes(..) has error.")
         } finally {
             inputBuffered?.close()
             input?.close()
@@ -83,7 +84,7 @@ object CommonUtil {
      * 关闭游标(Kotlin化后这玩意儿好像没用了)
      * @param cursor 游标对象
      */
-    fun cloaseCursor(cursor: Cursor?){
+    fun closeCursor(cursor: Cursor?){
         cursor?.close()
     }
 
@@ -93,7 +94,8 @@ object CommonUtil {
      * @return              数据表名
      */
     fun getTableNameFromClassPath(classPath: String?): String =
-        if(!TextUtils.isEmpty(classPath)) getTableNameFromClass(Class.forName(classPath)) else throw TableEntityClassNotFoundException()
+        if(!TextUtils.isEmpty(classPath)) getTableNameFromClass(classPath?.let { Class.forName(it) } as Class<*>)
+        else throw TableEntityClassNotFoundException()
 
     /**
      * 从数据表对应实体类类型中获取数据表名
@@ -105,7 +107,7 @@ object CommonUtil {
 //        从注解中获取数据表名
         if (tableClass.isAnnotationPresent(TableName::class.java)) {
             val annotation = tableClass.getAnnotation(TableName::class.java)
-            tableName = annotation?.tableName?.let { annotation.tableName }.toString()
+            tableName = annotation?.tableName?: ""
         }
         if(TextUtils.isEmpty(tableName)){
             throw TableEntityClassNotFoundException()
