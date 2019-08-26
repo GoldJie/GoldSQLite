@@ -89,11 +89,8 @@ object DbManager {
      * @param dbName    数据库名称
      * @return          数据库模型对象
      */
-    private fun getDbModelByName(dbName: String): DbModel?{
-        mDbModelMap[dbName]?.let {
-            return it
-        }
-        throw GoldSQLiteCommonException("No such a Database model.")
+    private fun getDbModelByName(dbName: String): DbModel{
+        return  mDbModelMap[dbName] ?: throw GoldSQLiteCommonException("No such a Database model.")
     }
 
     /**
@@ -102,7 +99,7 @@ object DbManager {
      * @return          db对象
      */
     fun getSQLiteDb(dbName: String): SQLiteDatabase{
-        getDbModelByName(dbName)?.run {
+        getDbModelByName(dbName).run {
             var dbHelper = getDbHelper()
             if(dbHelper == null){
 //                若为空则创建数据库辅助类
@@ -115,7 +112,6 @@ object DbManager {
             }
             return dbHelper.writableDatabase
         }
-        throw GoldSQLiteCommonException("DbModel not found!")
     }
 
     /**
@@ -124,7 +120,7 @@ object DbManager {
      * @param tableName     需要获取数据操作对象的数据表名
      */
     fun getTableOperator(dbName: String, tableName: String): TableOperator{
-        getDbModelByName(dbName)?.getTableMap()?.let {
+        getDbModelByName(dbName).getTableMap()?.let {
                 if(it.isNotEmpty()){
                     val tableModel =  it[tableName]
                     var tableOperator = tableModel?.getTableOperator()

@@ -3,20 +3,40 @@ package com.lxj.gold.sqlite_core.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
+import com.lxj.gold.sqlite_core.GoldSQLite
 import com.lxj.gold.sqlite_core.parser.model.DbModel
 
 /**
  * Created by lixinjie on 2019/8/1
  * 数据库辅助类
  */
-class DbHelper(context: Context, name: String, version: Int, dbModel: DbModel) :
-    SQLiteOpenHelper(context, name, null, version) {
+class DbHelper(mContext: Context, dbName: String, dbVersion: Int, private val mDbModel: DbModel) :
+    SQLiteOpenHelper(mContext, dbName, null, dbVersion) {
+    private val TAG = DbHelper::class.java.simpleName
 
-    override fun onCreate(p0: SQLiteDatabase?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    /**
+     * 初始版本数据库的创建
+     * @param sqLiteDatabase    数据库对象
+     */
+    override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
+        Log.d(TAG, "database onCreate")
+        sqLiteDatabase?.let {
+            TableHelper.createTables(it, mDbModel)
+        }
+        TODO("数据库监听")
     }
 
-    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    /**
+     * 后续版本数据库的更新
+     * @param sqLiteDatabase    数据库对象
+     * @param oldVersion        数据库旧版本号
+     * @param newVersion        数据库新版本号
+     */
+    override fun onUpgrade(sqLiteDatabase: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        Log.d(TAG, "database update to version: $newVersion")
+        sqLiteDatabase?.let {
+            TableHelper.upgrateTables(sqLiteDatabase, mDbModel)
+        }
     }
 }

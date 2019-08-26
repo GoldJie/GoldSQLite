@@ -54,4 +54,7 @@ object ConstantManagerUtil {
     const val METHOD_GET_TABLE_OPERATOR = "getTableOperator"
     const val DB_NAME = "db_name"
     const val TABLE_NAME = "table_name"
+
+//    行Id
+    const val ROW_ID = "rowId"
 }

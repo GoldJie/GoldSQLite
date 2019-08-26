@@ -88,18 +88,19 @@ object TableHelper {
         val fieldsList = transformFieldToColumn(tableClass)
         fieldsList.forEach {
 //            获取字段上声明的注解
-            var column: Column = it.getAnnotation(Column::class.java)
-//            若注解声明的数据表列类型为空，则通过实体类字段本身类型去获取
-            val columnType =
-                if (TextUtils.isEmpty(column.type)) {
-                    getColumnType(it.type)
-                } else {
-                    column.type
+            it.getAnnotation(Column::class.java)?.run {
+//                若注解声明的数据表列类型为空，则通过实体类字段本身类型去获取
+                val columnType =
+                    if (TextUtils.isEmpty(type)) {
+                        getColumnType(it.type)
+                    } else {
+                        type
+                    }
+                strBuilder.append(name).append(" ").append(columnType)
+//                注解长度有设置则添加上类型长度
+                if (length != 0) {
+                    strBuilder.append("($length)")
                 }
-            strBuilder.append(column.name).append(" ").append(columnType)
-//            注解长度有设置则添加上类型长度
-            if (column.length != 0) {
-                strBuilder.append("(" + column.length + ")")
             }
 
 //             实体类中作为主键的字段为int类型时，需要设置主键自增
@@ -297,10 +298,11 @@ object TableHelper {
             val fieldList = transformFieldToColumn(tableEntity::class.java)
             fieldList.forEach {
                 it.isAccessible = true
-                val column: Column = it.getAnnotation(Column::class.java)
-//                获取数据表字段名
-                val columnName = column.name
-                valuesMap[columnName] = it.get(tableEntity)
+                it.getAnnotation(Column::class.java)?.run {
+//                    获取数据表字段名
+                    val columnName = name
+                    valuesMap[columnName] = it.get(tableEntity)
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, "Transforming entity has error: " + e.message)
@@ -325,32 +327,33 @@ object TableHelper {
 //            获取与数据表列属性有映射关系的数据表实体类字段列表
             val fieldList = transformFieldToColumn(tableClass)
             fieldList.forEach {
-                val column = it.getAnnotation(Column::class.java)
-//                数据表字段名
-                val columnName = column.name
+                it.getAnnotation(Column::class.java)?.run {
+//                    数据表字段名
+                    val columnName = name
 //                数据表字段类型
 //                若注解声明的数据表列类型为空，则通过实体类字段本身类型去获取
-                val columnType =
-                    if (TextUtils.isEmpty(column.type)) {
-                        getColumnType(it.type)
-                    } else {
-                        column.type
-                    }
-                it.isAccessible = true
-    //            根据不同数据表字段类型来设置实体成员变量
-                it.set(entity, with(cursor){
-                    val index = getColumnIndex(columnName)
-                    when(columnType){
-                        TYPE_TEXT -> getString(index)
-                        TYPE_BIG_INT -> getLong(index)
-                        TYPE_INTEGER -> getInt(index)
-                        TYPE_INT -> getShort(index)
-                        TYPE_FLOAT -> getFloat(index)
-                        TYPE_DOUBLE -> getDouble(index)
-                        TYPE_BLOB -> getBlob(index)
-                        else -> getString(index)
-                    }
-                })
+                    val columnType =
+                        if (TextUtils.isEmpty(type)) {
+                            getColumnType(it.type)
+                        } else {
+                            type
+                        }
+                    it.isAccessible = true
+//                    根据不同数据表字段类型来设置实体成员变量
+                    it.set(entity, with(cursor){
+                        val index = getColumnIndex(columnName)
+                        when(columnType){
+                            TYPE_TEXT -> getString(index)
+                            TYPE_BIG_INT -> getLong(index)
+                            TYPE_INTEGER -> getInt(index)
+                            TYPE_INT -> getShort(index)
+                            TYPE_FLOAT -> getFloat(index)
+                            TYPE_DOUBLE -> getDouble(index)
+                            TYPE_BLOB -> getBlob(index)
+                            else -> getString(index)
+                        }
+                    })
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, "Transforming cursor has error: " + e.message)
