@@ -74,7 +74,7 @@ object CommonUtil {
                 is Float -> contentValues.put(key, value)
                 is Double -> contentValues.put(key, value)
                 is String -> contentValues.put(key, value)
-                is Blob -> contentValues.put(key, CommonUtil.transformBlobToBytes(value))
+                is Blob -> contentValues.put(key, transformBlobToBytes(value))
             }
         }
         return contentValues

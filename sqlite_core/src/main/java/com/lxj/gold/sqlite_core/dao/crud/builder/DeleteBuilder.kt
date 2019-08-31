@@ -1,7 +1,6 @@
 package com.lxj.gold.sqlite_core.dao.crud.builder
 
 import android.util.ArrayMap
-import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation
 import com.lxj.gold.sqlite_core.dao.crud.operation.DeleteOperation
 import com.lxj.gold.sqlite_core.dao.crud.provider.UriHandler
 import com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.OPERATION_DELETE
@@ -67,7 +66,7 @@ class DeleteBuilder(dbName: String, tableName: String): ABaseBuilder(dbName, tab
      * 构建删除操作
      * @return  删除操作对象
      */
-    override fun build(): ABaseDbOperation {
+    override fun build(): DeleteOperation {
 //        获取数据操作者对象
         val tableOperator = getTableOperator(OPERATION_DELETE)
         return DeleteOperation(tableOperator, this)

@@ -291,7 +291,7 @@ object TableHelper {
      * @param tableEntity   数据表实体类
      * @return             <数据表列名，字段对象>形式的映射表
      */
-    fun transformEntityToValuesMap(tableEntity: Any): Map<String, Any>{
+    fun transformEntityToValuesMap(tableEntity: Any): ArrayMap<String, Any>? {
         val valuesMap = ArrayMap<String, Any>()
         try {
 //            获取与数据表列属性有映射关系的数据表实体类字段列表
