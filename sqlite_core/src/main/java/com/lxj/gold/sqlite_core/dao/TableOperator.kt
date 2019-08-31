@@ -2,6 +2,7 @@ package com.lxj.gold.sqlite_core.dao
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation
 
 /**
  * Created by lixinjie on 2019/8/1
@@ -28,5 +29,9 @@ class TableOperator(var mTableName: String?): Parcelable{
         override fun newArray(size: Int): Array<TableOperator?> {
             return arrayOfNulls(size)
         }
+    }
+
+    fun execute(baseDbOperation: ABaseDbOperation){
+        DaoExecutor
     }
 }

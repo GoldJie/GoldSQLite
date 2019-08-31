@@ -17,7 +17,7 @@ import com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.TABLE_NAME
  * @param dbName    数据库名
  * @param tableName 数据表名
  */
-abstract class ABaseBuilder(val dbName: String, val tableName: String) {
+abstract class ABaseBuilder(var dbName: String, var tableName: String) {
     var operationUri: Uri? = null
 
     /**

@@ -26,4 +26,8 @@ object GoldSQLite {
      */
     fun getContext(): Application = mContext!!
 
+    /**
+     * 获取主线程Handler，用于线程切换
+     */
+    fun getMainThreadHandler(): Handler = mMainThreadHandler
 }

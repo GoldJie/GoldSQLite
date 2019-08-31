@@ -1,5 +1,6 @@
 package com.lxj.gold.sqlite_core.dao
 
+import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.ThreadPoolExecutor
@@ -14,4 +15,14 @@ object DaoExecutor {
         TimeUnit.SECONDS,
         ArrayBlockingQueue<Runnable>(10),
         ThreadPoolExecutor.DiscardPolicy())
+
+    /**
+     * 执行DAO操作
+     * @param operation   基本数据操作对象
+     */
+    fun execute(operation: ABaseDbOperation){
+        mDaoThreadPool.execute {
+            operation.doExecute()
+        }
+    }
 }
