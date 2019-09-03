@@ -18,7 +18,8 @@ import com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.TABLE_NAME
  * @param tableName 数据表名
  */
 abstract class ABaseBuilder(var dbName: String, var tableName: String) {
-    var operationUri: Uri? = null
+//    传递给ContentProvider的DAO操作Uri
+    internal var operationUri: Uri? = null
 
     /**
      * 抽象方法，构建基本数据操作

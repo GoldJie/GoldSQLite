@@ -34,7 +34,9 @@ class UpdateOperation(tableOperator: TableOperator, private val mUpdateBuilder: 
      * @param callback  回调
      */
     fun execute(callback: OnDaoFinishedCallback<Int>?){
+//        设置回调
         mCallback = callback
+//        线程池执行查询操作
         if(proTableOperator.mTableName == mUpdateBuilder.tableName){
             proTableOperator.execute(this)
         }
@@ -44,17 +46,18 @@ class UpdateOperation(tableOperator: TableOperator, private val mUpdateBuilder: 
      * 更新数据
      */
     private fun update(){
-        var rowCount = 0
         try {
             synchronized(proTableOperator){
                 Log.d(TAG, "start update.")
-                rowCount = GoldSQLite.getContext()
+                GoldSQLite.getContext()
                     .contentResolver
                     .update(mUpdateBuilder.operationUri!!, mUpdateBuilder.contentValues,
                         mUpdateBuilder.whereClause, mUpdateBuilder.whereArgs)
-//                更新结果回调
-                onCallback(rowCount)
-                Log.d(TAG, "update end: $rowCount")
+                    .run {
+//                        更新结果回调
+                        onCallback(this)
+                        Log.d(TAG, "update end: $this")
+                    }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -68,6 +71,7 @@ class UpdateOperation(tableOperator: TableOperator, private val mUpdateBuilder: 
      */
     private fun onCallback(result: Int){
         mCallback?.let {
+//            切换主线程
             GoldSQLite.getMainThreadHandler().post{
                 it.onResultReturn(result)
             }

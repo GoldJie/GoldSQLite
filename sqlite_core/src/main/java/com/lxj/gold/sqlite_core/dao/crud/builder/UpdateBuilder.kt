@@ -17,15 +17,15 @@ import java.lang.StringBuilder
  */
 class UpdateBuilder(dbName: String, tableName: String): ABaseBuilder(dbName, tableName) {
 //    需要更新的values键值对映射
-    var valuesMap: ArrayMap<String, Any>? = null
+    internal var valuesMap: ArrayMap<String, Any>? = null
 //    需要更新的values键值对
-    var contentValues: ContentValues? = null
+    internal var contentValues: ContentValues? = null
 //    更新条件语句
-    var whereClause: String? = null
+    internal var whereClause: String? = null
 //    更新筛选条件值
-    var whereArgs: Array<String?>? = null
+    internal var whereArgs: Array<String?>? = null
 //    更新冲突处理策略
-    var conflictAlgorithm = CONFLICT_NONE
+    internal var conflictAlgorithm = CONFLICT_NONE
 
     /**
      * 构建要更新字段的键值对

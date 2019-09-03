@@ -34,7 +34,9 @@ class DeleteOperation(tableOperator: TableOperator, private val mDeleteBuilder: 
      * @param callback  回调
      */
     fun execute(callback: OnDaoFinishedCallback<Int>?){
+//        设置回调
         mCallback = callback
+//        线程池执行删除操作
         if(proTableOperator.mTableName == mDeleteBuilder.tableName){
             proTableOperator.execute(this)
         }
@@ -44,17 +46,18 @@ class DeleteOperation(tableOperator: TableOperator, private val mDeleteBuilder: 
      * 删除数据
      */
     private fun delete(){
-        var rowCount = 0
         try {
             synchronized(proTableOperator){
                 Log.d(TAG, "start delete.")
-                rowCount = GoldSQLite.getContext()
+                GoldSQLite.getContext()
                     .contentResolver
                     .delete(mDeleteBuilder.operationUri!!, mDeleteBuilder.whereClause, mDeleteBuilder.whereArgs)
-//                删除结果回调
-                onCallback(rowCount)
+                    .run {
+//                        删除结果回调
+                        onCallback(this)
+                        Log.d(TAG, "delete end: $this")
+                    }
             }
-            Log.d(TAG, "delete end: $rowCount")
         } catch (e: Exception) {
             e.printStackTrace()
             throw GoldSQLiteCommonException("delete error: " + e.message)
@@ -67,6 +70,7 @@ class DeleteOperation(tableOperator: TableOperator, private val mDeleteBuilder: 
      */
     private fun onCallback(result: Int){
         mCallback?.let {
+//            切换主线程
             GoldSQLite.getMainThreadHandler().post{
                 it.onResultReturn(result)
             }

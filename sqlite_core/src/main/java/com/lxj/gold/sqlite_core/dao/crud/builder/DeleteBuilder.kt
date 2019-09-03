@@ -14,9 +14,9 @@ import java.lang.StringBuilder
  */
 class DeleteBuilder(dbName: String, tableName: String): ABaseBuilder(dbName, tableName){
 //    删除条件语句
-    var whereClause: String? = null
+    internal var whereClause: String? = null
 //    删除的筛选条件值
-    var whereArgs: Array<String?>? = null
+    internal var whereArgs: Array<String?>? = null
 
     init {
         operationUri = UriHandler.combineOperationUri(dbName, tableName, OPERATION_DELETE)
