@@ -18,7 +18,7 @@ abstract class ABaseDbOperation (val proTableOperator: TableOperator){
     /**
      * DAO操作结束回调接口
      */
-    interface OnDaoFinishedCallback<T>{
+    interface OnDaoFinishedCallback<T: Any>{
         fun onResultReturn(result: T)
     }
 }

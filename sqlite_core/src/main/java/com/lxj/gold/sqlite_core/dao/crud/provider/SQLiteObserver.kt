@@ -12,7 +12,7 @@ import com.lxj.gold.sqlite_core.utils.CommonUtil
  * @param mTableName        数据表名
  * @param mOperationtype    操作类型
  */
-abstract class SQLiteObserver(private var mTableName: String, private var mOperationtype: Int)
+abstract class SQLiteObserver(private var mTableName: String?, private var mOperationtype: Int)
     : ContentObserver(GoldSQLite.getMainThreadHandler()){
 
     override fun onChange(selfChange: Boolean, uri: Uri?) {

@@ -33,9 +33,6 @@ class SQLiteProvider: ContentProvider(){
     private val OPERATION_CODE = 0
 //    Uri匹配器
     private var mUriMatcher: UriMatcher? = null
-//    数据库管理类
-    private var mDbManger: DbManager? = null
-
 
     override fun onCreate(): Boolean {
         mUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
@@ -45,6 +42,9 @@ class SQLiteProvider: ContentProvider(){
         return true
     }
 
+    /**
+     * 插入
+     */
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         try {
             val dbName = UriHandler.getDbNameFromUri(uri)
@@ -66,6 +66,9 @@ class SQLiteProvider: ContentProvider(){
         return null
     }
 
+    /**
+     * 多行插入
+     */
     override fun bulkInsert(uri: Uri, values: Array<out ContentValues>): Int {
         var rowCount = 0
         try {
@@ -99,6 +102,9 @@ class SQLiteProvider: ContentProvider(){
         return rowCount
     }
 
+    /**
+     * 查询
+     */
     override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
         try {
             val dbName = UriHandler.getDbNameFromUri(uri)
@@ -123,6 +129,9 @@ class SQLiteProvider: ContentProvider(){
         return null
     }
 
+    /**
+     * 更新
+     */
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
         try {
             val dbName = UriHandler.getDbNameFromUri(uri)
@@ -151,6 +160,9 @@ class SQLiteProvider: ContentProvider(){
         return 0
     }
 
+    /**
+     * 删除
+     */
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
         try {
             val dbName = UriHandler.getDbNameFromUri(uri)
@@ -174,6 +186,9 @@ class SQLiteProvider: ContentProvider(){
         return 0
     }
 
+    /**
+     * 自定义调用
+     */
     override fun call(method: String, arg: String?, extras: Bundle?): Bundle? {
 //        调用当前ContentProvider所在进程的数据库管理类获取数据表操作者对象
 //        在多进程情况下只需要保留一个数据库管理类即可

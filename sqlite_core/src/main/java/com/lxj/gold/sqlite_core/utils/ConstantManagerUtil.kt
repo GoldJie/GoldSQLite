@@ -6,7 +6,7 @@ package com.lxj.gold.sqlite_core.utils
  */
 object ConstantManagerUtil {
 //    数据库全局配置XML文件名
-    const val CONFIG_XML_FILE_NAME = "simplesqlite"
+    const val CONFIG_XML_FILE_NAME = "GoldSQLite"
 
     /**
      * SQLite数据库基础数据类型常量
@@ -30,7 +30,7 @@ object ConstantManagerUtil {
 
 //    ContentProvider Uri的协议与权限
     const val OPERATION_SCHEME = "content://"
-    const val OPERATION_AUTHORITY = "simple.sqlite.provider"
+    const val OPERATION_AUTHORITY = "gold.sqlite.provider"
 
     /**
      * 以下是一些在数据操作中用到的常量标识

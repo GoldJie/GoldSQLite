@@ -34,7 +34,7 @@ object CommonUtil {
         var bytes: ByteArray? = null
         var input: InputStream? = null
         var inputBuffered: BufferedInputStream? = null
-        var output: ByteArrayOutputStream? =null
+        var output: ByteArrayOutputStream? = null
 
         try {
             input = blob.binaryStream
@@ -56,7 +56,6 @@ object CommonUtil {
             input?.close()
             output?.close()
         }
-
         return bytes
     }
 

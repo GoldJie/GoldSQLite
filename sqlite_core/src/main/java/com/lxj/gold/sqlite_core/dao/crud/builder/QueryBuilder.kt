@@ -134,7 +134,7 @@ class QueryBuilder<T>(dbName: String, tableClass: Class<T>)
      * 构建数据库查询操作
      * @return          查询操作对象
      */
-    override fun build(): ABaseDbOperation {
+    override fun build(): QueryOperation {
 //        组合数据操作的Uri
         with(ArrayMap<String, String>()){
             put(DISTINCT, distinct.toString())

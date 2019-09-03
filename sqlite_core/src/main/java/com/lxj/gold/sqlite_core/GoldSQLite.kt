@@ -5,10 +5,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import com.lxj.gold.sqlite_core.dao.TableOperator
 import com.lxj.gold.sqlite_core.dao.crud.builder.DeleteBuilder
 import com.lxj.gold.sqlite_core.dao.crud.builder.InsertBuilder
 import com.lxj.gold.sqlite_core.dao.crud.builder.QueryBuilder
 import com.lxj.gold.sqlite_core.dao.crud.builder.UpdateBuilder
+import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation
 import com.lxj.gold.sqlite_core.dao.crud.provider.SQLiteObserver
 import com.lxj.gold.sqlite_core.db.DbManager
 import com.lxj.gold.sqlite_core.db.DbStateListener

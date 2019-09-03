@@ -29,7 +29,7 @@ class QueryOperation(tableOperator: TableOperator, private val mQueryBuilder: Qu
     /**
      * 执行查询操作不带回调
      */
-    fun execute(){
+    fun execute() {
         execute(null)
     }
 
@@ -85,7 +85,7 @@ class QueryOperation(tableOperator: TableOperator, private val mQueryBuilder: Qu
      * 数据操作执行结果回调
      * @param result    查询的数据列表
      */
-    private fun onCallback(result: List<*>){
+    private fun onCallback(result: List<Any>){
         try {
             mCallback?.let {
 //                切换主线程

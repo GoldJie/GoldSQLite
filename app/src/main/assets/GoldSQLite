@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simple-sqlite>
+    <database
+            name = "demo1"
+            version = "1">
+        <table class = "com.lxj.goldsqlite.Student"/>
+        <!--<table class = "com.lxj.simplesqlite.Teacher"/>-->
+    </database>
+
+    <database
+            name = "demo2"
+            version = "1"
+            external-path = "/simple">
+        <table class = "com.lxj.goldsqlite.Teacher"/>
+    </database>
+</simple-sqlite>
