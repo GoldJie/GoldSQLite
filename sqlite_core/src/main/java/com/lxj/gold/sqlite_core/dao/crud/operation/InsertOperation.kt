@@ -44,7 +44,7 @@ class InsertOperation(tableOperator: TableOperator, private val mInsertBuilder: 
 //        设置回调
         mCallback = callback
 //        线程池执行插入操作
-        if(proTableOperator.mTableName == mInsertBuilder.tableName){
+        if(proTableOperator.tableName == mInsertBuilder.tableName){
             proTableOperator.execute(this)
         }
     }

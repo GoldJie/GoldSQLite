@@ -129,6 +129,7 @@ object DbManager {
                     }
                     tableOperator = TableOperator(tableName)
                     tableModel?.setTableOperator(tableOperator)
+                    return  tableOperator
                 }
             }
         throw GoldSQLiteCommonException("Can't get the TableOperator from table model.")

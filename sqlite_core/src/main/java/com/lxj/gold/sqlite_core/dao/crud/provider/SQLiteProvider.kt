@@ -51,10 +51,15 @@ class SQLiteProvider: ContentProvider(){
             val tableName = UriHandler.getTableNameFromUri(uri)
 //            获取Uri携带的额外参数
             val nullColumnHank = UriHandler.getParmFromUri(uri, NULL_COLUMN_HACK)
+            val conflictStrategy = CommonUtil
+                .transformStringToInt(UriHandler.getParmFromUri(uri, CONFLICT_STRATEGY))
+                .apply {
+                    if(this == -1) CONFLICT_NONE
+                }
 
             if(!TextUtils.isEmpty(dbName) && !TextUtils.isEmpty(tableName)){
                 val db = DbManager.getSQLiteDb(dbName)
-                val rowId = db.insert(tableName, nullColumnHank, values)
+                val rowId = db.insertWithOnConflict(tableName, nullColumnHank, values, conflictStrategy)
 //                通知数据表监听器
                 context?.contentResolver?.notifyChange(uri, null)
                 return Uri.parse("$OPERATION_SCHEME$OPERATION_AUTHORITY?$ROW_ID=$rowId")
@@ -76,6 +81,11 @@ class SQLiteProvider: ContentProvider(){
             val tableName = UriHandler.getTableNameFromUri(uri)
 //            获取Uri携带的额外参数
             val nullColumnHank = UriHandler.getParmFromUri(uri, NULL_COLUMN_HACK)
+            val conflictStrategy = CommonUtil
+                .transformStringToInt(UriHandler.getParmFromUri(uri, CONFLICT_STRATEGY))
+                .apply {
+                    if(this == -1) CONFLICT_NONE
+                }
 
             if(!TextUtils.isEmpty(dbName) && !TextUtils.isEmpty(tableName)){
                 val db = DbManager.getSQLiteDb(dbName)
@@ -83,7 +93,7 @@ class SQLiteProvider: ContentProvider(){
     //                开启事务
                     db.beginTransaction()
                     values.forEach {
-                        val rowId = db.insert(tableName, nullColumnHank, it)
+                        val rowId = db.insertWithOnConflict(tableName, nullColumnHank, it, conflictStrategy)
                         if(rowId != -1L){
                             rowCount ++
                         }
@@ -138,9 +148,11 @@ class SQLiteProvider: ContentProvider(){
             val tableName = UriHandler.getTableNameFromUri(uri)
 
 //            获取Uri携带的额外参数
-            val conflictStrategyStr = UriHandler.getParmFromUri(uri, CONFLICT_STRATEGY)
-            var conflictStrategy = CommonUtil.transformStringToInt(conflictStrategyStr)
-            if(conflictStrategy == -1) conflictStrategy = CONFLICT_NONE
+            val conflictStrategy = CommonUtil
+                .transformStringToInt(UriHandler.getParmFromUri(uri, CONFLICT_STRATEGY))
+                .apply {
+                    if(this == -1) CONFLICT_NONE
+                }
 
             if(!TextUtils.isEmpty(dbName) && !TextUtils.isEmpty(tableName)){
                 val db = DbManager.getSQLiteDb(dbName)

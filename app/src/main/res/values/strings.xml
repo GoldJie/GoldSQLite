@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">GoldSQLite</string>
+
+    <string name="process_info">当前进程Id: %d</string>
+    <string name="operation_info">数据库操作信息：%s</string>
+    <string name="insert">插入</string>
+    <string name="update_name">更新姓名</string>
+    <string name="hint_old_name">旧姓名</string>
+    <string name="hint_new_name">新姓名</string>
+    <string name="delete">删除</string>
+    <string name="hint_delete_by_name">请输入要删除学生的姓名</string>
+    <string name="handover_process">切换进程</string>
 </resources>

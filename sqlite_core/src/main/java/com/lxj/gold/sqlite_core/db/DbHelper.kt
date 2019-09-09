@@ -24,7 +24,10 @@ class DbHelper(mContext: Context, dbName: String, dbVersion: Int, private val mD
         sqLiteDatabase?.let {
             TableHelper.createTables(it, mDbModel)
         }
-        TODO("数据库监听")
+//        数据库创建监听
+        GoldSQLite.getDbStateListener()?.run {
+            onCreate(mDbModel.getDbName()?: "")
+        }
     }
 
     /**

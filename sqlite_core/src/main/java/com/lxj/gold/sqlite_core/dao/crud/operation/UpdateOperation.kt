@@ -37,7 +37,7 @@ class UpdateOperation(tableOperator: TableOperator, private val mUpdateBuilder: 
 //        设置回调
         mCallback = callback
 //        线程池执行查询操作
-        if(proTableOperator.mTableName == mUpdateBuilder.tableName){
+        if(proTableOperator.tableName == mUpdateBuilder.tableName){
             proTableOperator.execute(this)
         }
     }

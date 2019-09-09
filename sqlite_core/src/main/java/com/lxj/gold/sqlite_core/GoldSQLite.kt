@@ -5,16 +5,15 @@ import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import com.lxj.gold.sqlite_core.dao.TableOperator
 import com.lxj.gold.sqlite_core.dao.crud.builder.DeleteBuilder
 import com.lxj.gold.sqlite_core.dao.crud.builder.InsertBuilder
 import com.lxj.gold.sqlite_core.dao.crud.builder.QueryBuilder
 import com.lxj.gold.sqlite_core.dao.crud.builder.UpdateBuilder
-import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation
 import com.lxj.gold.sqlite_core.dao.crud.provider.SQLiteObserver
 import com.lxj.gold.sqlite_core.db.DbManager
 import com.lxj.gold.sqlite_core.db.DbStateListener
 import com.lxj.gold.sqlite_core.db.TableHelper
+import com.lxj.gold.sqlite_core.exception.GoldSQLiteCommonException
 import com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.OPERATION_AUTHORITY
 import com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.OPERATION_SCHEME
 
@@ -40,12 +39,18 @@ object GoldSQLite {
     /**
      * 获取Context上下文对象
      */
-    fun getContext(): Application = mContext!!
+    fun getContext(): Application{
+        try {
+            return mContext!!
+        } catch (e: Exception) {
+            throw GoldSQLiteCommonException("GoldSQLite must init in Application.")
+        }
+    }
 
     /**
      * 获取主线程Handler，用于线程切换
      */
-    fun getMainThreadHandler(): Handler = mMainThreadHandler
+    fun getMainThreadHandler() = mMainThreadHandler
 
     /**
      * 获取插入操作Builder对象

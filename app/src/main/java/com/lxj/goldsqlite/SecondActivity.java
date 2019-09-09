@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.lxj.gold.sqlite_core.GoldSQLite;
 import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -34,11 +35,11 @@ public class SecondActivity extends AppCompatActivity {
                     }
                 });
 //
-        Teacher teacher = new Teacher();
-        teacher.setId(2);
-        teacher.setName("老师2");
-        teacher.setSex("女");
-        teacher.setCourse("语文");
+            Teacher teacher = new Teacher();
+            teacher.setId(2);
+            teacher.setName("老师2");
+            teacher.setSex("女");
+            teacher.setCourse("语文");
 
             GoldSQLite.INSTANCE.getInsertOperation("demo2", "Teacher")
                 .insert(teacher)
@@ -50,26 +51,26 @@ public class SecondActivity extends AppCompatActivity {
                     }
                 });
 
-//            GoldSQLite.INSTANCE.getQueryOperation("demo2", Teacher.class)
-//                    .build()
-//                    .execute(new ABaseDbOperation.OnDaoFinishedCallback<List<Teacher>>() {
-//                        @Override
-//                        public void onResultReturn(List<Teacher> result) {
-//
-//                            if(result != null && result.size() != 0){
-//                                Log.d(TAG, "查询行数：" + result.size());
-//                                for(Teacher student1: result){
-//                                    if(student1 != null){
-//                                        String info = "id: " + student1.getId() + "; 名称:" + student1.getName() + "; 性别：" + student1.getSex();
-//    //                                                "; 班级：" + student1.getClassz() + "; 成绩:" +student1.getGrade() + "; 家庭：" + student1.getFamily();
-//                                        textView.setText(info);
-//                                    }
-//                                }
-//                            }else {
-//                                Log.d(TAG, "查询行数为0");
-//                            }
-//                        }
-//                    });
+            GoldSQLite.INSTANCE.getQueryOperation("demo2", Teacher.class)
+                    .build()
+                    .execute(new ABaseDbOperation.OnDaoFinishedCallback<List<Object>>() {
+                        @Override
+                        public void onResultReturn(@NotNull List<Object> result) {
+                            if(!result.isEmpty()){
+                                Log.d(TAG, "查询行数：" + result.size());
+                                for(Object object: result){
+                                    if(object instanceof Teacher){
+                                        Teacher teacher1 = (Teacher)object;
+                                        String info = "id: " + teacher1.getId() + "; 名称:" + teacher1.getName() + "; 性别：" + teacher1.getSex();
+//                                        "; 班级：" + student1.getClassz() + "; 成绩:" +student1.getGrade() + "; 家庭：" + student1.getFamily();
+                                        textView.setText(info);
+                                    }
+                                }
+                            }else {
+                                Log.d(TAG, "查询行数为0");
+                            }
+                        }
+                    });
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "error: " + e.getMessage());

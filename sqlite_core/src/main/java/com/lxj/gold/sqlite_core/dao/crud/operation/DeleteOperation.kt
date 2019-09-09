@@ -37,7 +37,7 @@ class DeleteOperation(tableOperator: TableOperator, private val mDeleteBuilder: 
 //        设置回调
         mCallback = callback
 //        线程池执行删除操作
-        if(proTableOperator.mTableName == mDeleteBuilder.tableName){
+        if(proTableOperator.tableName == mDeleteBuilder.tableName){
             proTableOperator.execute(this)
         }
     }

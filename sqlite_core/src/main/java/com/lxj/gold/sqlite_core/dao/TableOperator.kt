@@ -8,13 +8,13 @@ import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation
  * Created by lixinjie on 2019/8/1
  * 数据表DAO操作类
  * 用于限制对单表的并发操作
- * @param mTableName    数据表名
+ * @param tableName    数据表名
  */
-class TableOperator(var mTableName: String?): Parcelable{
+class TableOperator(internal var tableName: String?): Parcelable{
     constructor(parcel: Parcel) : this(parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(mTableName)
+        parcel.writeString(tableName)
     }
 
     override fun describeContents(): Int {
@@ -31,7 +31,9 @@ class TableOperator(var mTableName: String?): Parcelable{
         }
     }
 
-    fun execute(baseDbOperation: ABaseDbOperation){
-        DaoExecutor
-    }
+    /**
+     * 线程池执行数据操作
+     * @param baseDbOperation   数据库操作对象
+     */
+    fun execute(baseDbOperation: ABaseDbOperation) = DaoExecutor.execute(baseDbOperation)
 }

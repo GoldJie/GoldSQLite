@@ -2,7 +2,9 @@ package com.lxj.goldsqlite;
 
 import android.app.Application;
 import android.content.Intent;
+import android.os.Build;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import com.lxj.gold.sqlite_core.GoldSQLite;
 import com.lxj.gold.sqlite_core.db.DbStateListener;
 
@@ -10,6 +12,7 @@ import com.lxj.gold.sqlite_core.db.DbStateListener;
  * Created by lixinjie on 2019/7/10
  */
 public class MyApplication extends Application {
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
         super.onCreate();

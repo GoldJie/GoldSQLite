@@ -61,11 +61,14 @@ object TableHelper {
 //                遍历数据表模型列表
                 for((_, tableModel) in tableModelMap){
 //                    获取数据对应实体类名称（完整包名）
-                    tableModel.getClassName()?.let {
+                    tableModel.getClassName()?.run {
 //                        获取数据对应实体类类型
-                        val classType = Class.forName(it)
-//                        创建数据表
-                        createTable(db, it, classType)
+                        val classType = Class.forName(this)
+//                        获取数据表名
+                        tableModel.getTableName()?.let {
+//                            创建数据表
+                            createTable(db, it, classType)
+                        }
                     }
                 }
             }
@@ -125,13 +128,17 @@ object TableHelper {
             }
             strBuilder.append(", ")
         }
-//         删除末尾的，和空格
+//         删除末尾的","和空格
         strBuilder.delete(strBuilder.length - 2, strBuilder.length - 1)
         strBuilder.append(")")
 
 //         执行SQL语句创建表格
-        db.execSQL(strBuilder.toString())
-        Log.d(TAG, "create table [$tableName]")
+        try {
+            Log.d(TAG, "create table [$tableName]")
+            db.execSQL(strBuilder.toString())
+        } catch (e: Exception) {
+            throw GoldSQLiteCommonException("create table[$tableName] error: " + e.message)
+        }
     }
 
     /**

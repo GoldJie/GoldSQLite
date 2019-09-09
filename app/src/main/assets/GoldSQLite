@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<simple-sqlite>
+<gold-sqlite>
     <database
             name = "demo1"
             version = "1">
@@ -13,4 +13,4 @@
             external-path = "/simple">
         <table class = "com.lxj.goldsqlite.Teacher"/>
     </database>
-</simple-sqlite>
+</gold-sqlite>

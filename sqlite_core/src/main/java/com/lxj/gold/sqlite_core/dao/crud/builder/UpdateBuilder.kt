@@ -55,7 +55,7 @@ class UpdateBuilder(dbName: String, tableName: String): ABaseBuilder(dbName, tab
     fun where(key: String, value: String): UpdateBuilder{
         val map = ArrayMap<String, String>()
         map[key] = value
-        return this
+        return where(map)
     }
 
     /**

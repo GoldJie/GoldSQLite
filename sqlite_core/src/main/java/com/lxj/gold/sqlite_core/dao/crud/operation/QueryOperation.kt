@@ -19,7 +19,7 @@ import java.util.ArrayList
 class QueryOperation(tableOperator: TableOperator, private val mQueryBuilder: QueryBuilder<*>)
     : ABaseDbOperation(tableOperator){
 //    执行操作后的回调
-    private var mCallback: OnDaoFinishedCallback<Any>? = null
+    private var mCallback: OnDaoFinishedCallback<List<Any>>? = null
 
     override fun doExecute() {
 //        执行查询操作
@@ -37,11 +37,11 @@ class QueryOperation(tableOperator: TableOperator, private val mQueryBuilder: Qu
      * 执行查询操作带回调
      * @param callback  回调
      */
-    fun execute(callback: OnDaoFinishedCallback<Any>?){
+    fun execute(callback: OnDaoFinishedCallback<List<Any>>?){
 //        设置回调
         mCallback = callback
 //        线程池执行查询操作
-        if(proTableOperator.mTableName == mQueryBuilder.tableName){
+        if(proTableOperator.tableName == mQueryBuilder.tableName){
             proTableOperator.execute(this)
         }
     }

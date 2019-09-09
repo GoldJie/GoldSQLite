@@ -2,6 +2,7 @@ package com.lxj.gold.sqlite_core.dao.crud.builder
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase.CONFLICT_NONE
+import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
 import android.util.ArrayMap
 import com.lxj.gold.sqlite_core.dao.crud.operation.InsertOperation
 import com.lxj.gold.sqlite_core.dao.crud.provider.UriHandler
@@ -28,8 +29,8 @@ class InsertBuilder(dbName: String, tableName: String): ABaseBuilder(dbName, tab
     internal var contentValuesList: MutableList<ContentValues>? = null
 //    插入数据的键值对
     internal var contentValues: ContentValues? = null
-//    插入冲突解决策略
-    internal var conflictAlgorithm = CONFLICT_NONE
+//    插入冲突解决策略（默认覆盖）
+    internal var conflictAlgorithm = CONFLICT_REPLACE
 
     /**
      * 构建空行列名
