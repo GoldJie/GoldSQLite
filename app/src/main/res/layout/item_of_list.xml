@@ -8,7 +8,6 @@
        android:id="@+id/tv_text"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:text="@string/insert"
        android:textSize="14sp"
        android:maxLines="1"
        android:ellipsize="end"

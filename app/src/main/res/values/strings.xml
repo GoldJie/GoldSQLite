@@ -3,11 +3,14 @@
 
     <string name="process_info">当前进程Id: %d</string>
     <string name="operation_info">数据库操作信息：%s</string>
-    <string name="insert">插入</string>
+    <string name="insert_teacher">新增教师</string>
+    <string name="insert_student">新增学生</string>
     <string name="update_name">更新姓名</string>
     <string name="hint_old_name">旧姓名</string>
     <string name="hint_new_name">新姓名</string>
     <string name="delete">删除</string>
-    <string name="hint_delete_by_name">请输入要删除学生的姓名</string>
+    <string name="hint_delete_student_by_name">请输入要删除学生的姓名</string>
     <string name="handover_process">切换进程</string>
+    <string name="description">当前示例数据库配置概述：
+        学生表所处数据库demo1在默认目录，老师表所处数据库demo2在外存/goldsqlite目录下</string>
 </resources>

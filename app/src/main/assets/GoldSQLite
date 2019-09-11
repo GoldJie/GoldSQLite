@@ -10,7 +10,7 @@
     <database
             name = "demo2"
             version = "1"
-            external-path = "/simple">
+            external-path = "/goldsqlite">
         <table class = "com.lxj.goldsqlite.Teacher"/>
     </database>
 </gold-sqlite>

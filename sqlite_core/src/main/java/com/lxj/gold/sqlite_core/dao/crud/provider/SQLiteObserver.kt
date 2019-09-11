@@ -27,7 +27,7 @@ abstract class SQLiteObserver(private var mTableName: String?, private var mOper
                 if(mTableName != tableName) return
             }
             if(mOperationtype != 0){
-                if(mOperationtype != operationType) return
+                if(mOperationtype and operationType == 0) return
             }
             onChange(tableName, operationType)
         }

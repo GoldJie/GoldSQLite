@@ -23,10 +23,10 @@ object ConstantManagerUtil {
      * 数据表的操作类型，用于监听数据表时鉴别数据表操作
      */
     const val ALL_OPERATION = 0
-    const val OPERATION_QUERY = 1
-    const val OPERATION_INSERT = 2
-    const val OPERATION_UPDATE = 3
-    const val OPERATION_DELETE = 4
+    const val OPERATION_QUERY = 0b0000001
+    const val OPERATION_INSERT = 0b0000010
+    const val OPERATION_UPDATE = 0b0000100
+    const val OPERATION_DELETE = 0b0001000
 
 //    ContentProvider Uri的协议与权限
     const val OPERATION_SCHEME = "content://"

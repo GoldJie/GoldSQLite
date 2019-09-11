@@ -19,6 +19,7 @@ public class MyApplication extends Application {
         GoldSQLite.INSTANCE.init(this);
 
         Intent intent = new Intent(getApplicationContext(), ProcessService.class);
+//        留意8.0后系统对startService的严格控制，此处为Example，就不做特殊处理了
         startService(intent);
         GoldSQLite.INSTANCE.resgisterDbListener(new DbStateListener() {
             @Override

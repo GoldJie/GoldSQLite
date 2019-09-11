@@ -15,14 +15,12 @@ import androidx.core.content.ContextCompat;
 import com.lxj.gold.sqlite_core.GoldSQLite;
 import com.lxj.gold.sqlite_core.dao.crud.operation.ABaseDbOperation;
 import com.lxj.gold.sqlite_core.dao.crud.provider.SQLiteObserver;
-import com.lxj.gold.sqlite_core.db.TableHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.ALL_OPERATION;
-import static com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.OPERATION_INSERT;
+import static com.lxj.gold.sqlite_core.utils.ConstantManagerUtil.*;
 
 /**
  * created by lixinjie on 2019/9/4
@@ -39,25 +37,25 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mUpdateBt;
     private Button mDeleteBt;
-    private Button mInsertBt;
+    private Button mInsertStudentBt;
+//    private Button mInsertTeacherBt;
     private Button mHandoverProcessBt;
 
     private ListView mStudentsLv;
     private ListViewAdapter mListViewAdapter;
 
-    boolean flag;
-
-    SQLiteObserver observer1 = new SQLiteObserver(null, OPERATION_INSERT) {
+    SQLiteObserver observer1 = new SQLiteObserver(null, OPERATION_DELETE) {
         @Override
         public void onChange(@NotNull String tableName, int operationType) {
-            Log.d(TAG, "监听插入：" + "表名: " + tableName + "; 操作： " + operationType);
+            Log.d(TAG, "监听所有删除操作：" + "表名: " + tableName + "; 操作： " + operationType);
+            Toast.makeText(MainActivity.this, "监听所有删除操作：" + "表名: " + tableName + "; 操作： " + operationType, Toast.LENGTH_SHORT).show();
         }
     };
 
-    SQLiteObserver observer2 = new SQLiteObserver("Student", ALL_OPERATION) {
+    SQLiteObserver observer2 = new SQLiteObserver("Student", OPERATION_INSERT | OPERATION_DELETE | OPERATION_UPDATE) {
         @Override
         public void onChange(@NotNull String tableName, int operationType) {
-            Log.d(TAG, "监听学生表所有操作：" + "表名: " + tableName + "; 操作： " + operationType);
+            Log.d(TAG, "监听学生表增、删、改操作：" + "表名: " + tableName + "; 操作： " + operationType);
 //            查询并更新数据
             queryDataAndUpdateListView();
         }
@@ -67,15 +65,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onChange(@NotNull String tableName, int operationType) {
             Log.d(TAG, "监听老师表插入操作：" + "表名: " + tableName + "; 操作： " + operationType);
+            Toast.makeText(MainActivity.this, "监听老师表插入操作：" + "表名: " + tableName + "; 操作： " + operationType, Toast.LENGTH_SHORT).show();
         }
     };
 
-//    SQLiteObserver observer4 = new SQLiteObserver() {
-//        @Override
-//        public void onChange(SQLiteEvent event) {
-//            Log.d(TAG, "监听修改："+ "表名: " +event.getTableName() + "; 操作： " + event.getOperationType() + "; 结果： " + event.getOperationResult());
-//        }
-//    };
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,10 +100,10 @@ public class MainActivity extends AppCompatActivity {
     private void initView(){
         mProcessInfoTv = findViewById(R.id.tv_process_info);
         mProcessInfoTv.setText(String.format(getString(R.string.process_info), android.os.Process.myPid()));
-
         mInfoTv = findViewById(R.id.tv_info);
 
-        mInsertBt = findViewById(R.id.bt_insert);
+        mInsertStudentBt = findViewById(R.id.bt_insert_student);
+//        mInsertTeacherBt = findViewById(R.id.bt_insert_teacher);
         mUpdateBt = findViewById(R.id.bt_update);
         mDeleteBt = findViewById(R.id.bt_delete);
         mHandoverProcessBt = findViewById(R.id.bt_handover_process);
@@ -131,12 +124,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
-                flag = true;
             }
         });
 
 //        新插入一个学生
-        mInsertBt.setOnClickListener(new View.OnClickListener() {
+        mInsertStudentBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mListViewAdapter != null && mListViewAdapter.getDataList() != null){
@@ -153,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
                         .execute(new ABaseDbOperation.OnDaoFinishedCallback<Integer>() {
                             @Override
                             public void onResultReturn(@NotNull Integer result) {
-                                Log.d(TAG, "插入行数：" + result);
+                                Log.d(TAG, "插入行ID(学生表)：" + result);
                                 mInfoTv.setText(String.format(getString(R.string.operation_info), "插入学生:" + "小" + mListViewAdapter.getDataList().size()));
-                                Toast.makeText(MainActivity.this, "插入行数：" + result, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "插入行：" + result, Toast.LENGTH_SHORT).show();
                             }
                     });
                 }
@@ -283,70 +275,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-//        GoldSQLite.INSTANCE.getQueryOperation("demo1", Student.class)
-//                .build()
-//                .execute(new ABaseDbOperation.OnDaoFinishedCallback<List<Student>>() {
-//                    @Override
-//                    public void onResultReturn(List<Student> result) {
-//
-//                    }
-//                });
-//                .execute(new ABaseDbOperation.OnDaoFinishedCallback<List<Student>>() {
-//                    @Override
-//                    public void onResultReturn(List<Student> result) {
-//
-//                        if(result != null && result.size() != 0){
-//                            Log.d(TAG, "查询行数：" + result.size());
-//                            for(Student student1: result){
-//                                if(student1 != null){
-//                                    String info = "id: " + student1.getId() + "; 名称:" + student1.getName() + "; 性别：" + student1.getSex() +
-//                                            "; 班级：" + student1.getClassz() + "; 成绩:" +student1.getGrade() + "; 家庭：" + student1.getFamily();
-//                                    textView.setText(info);
-//                                }
-//                            }
-//                        }else {
-//                            Log.d(TAG, "查询行数为0");
-//                        }
-//                    }
-//                });
-        if(flag){
-//            GoldSQLite.INSTANCE.getQueryOperation("demo2", Teacher.class)
-//                    .build()
-//                    .execute(new ABaseDbOperation.OnDaoFinishedCallback<List<Teacher>>() {
-//                        @Override
-//                        public void onResultReturn(List<Teacher> result) {
-//
-//                            if(result != null && result.size() != 0){
-//                                Log.d(TAG, "查询行数：" + result.size());
-//                                for(Teacher student1: result){
-//                                    if(student1 != null){
-//                                        String info = "id: " + student1.getId() + "; 名称:" + student1.getName() + "; 性别：" + student1.getSex();
-////                                                "; 班级：" + student1.getClassz() + "; 成绩:" +student1.getGrade() + "; 家庭：" + student1.getFamily();
-////                                        textView.setText(info);
-//                                    }
-//                                }
-//                            }else {
-//                                Log.d(TAG, "查询行数为0");
-//                            }
-//                        }
-//                    });
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 15 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//            Toast.makeText(MainActivity.this, "通过权限", Toast.LENGTH_SHORT).show();
-
-            boolean isExist = TableHelper.INSTANCE.isExist(GoldSQLite.INSTANCE.getSQLiteDb("demo2"), "Teacher");
-
-
             final Teacher teacher = new Teacher();
-            teacher.setId(1);
-            teacher.setName("老师");
+            teacher.setId(0);
+            teacher.setName("某某老师");
             teacher.setSex("男");
             teacher.setCourse("数学");
 
@@ -355,37 +289,12 @@ public class MainActivity extends AppCompatActivity {
                     .build()
                     .execute(new ABaseDbOperation.OnDaoFinishedCallback<Integer>() {
                         @Override
-                        public void onResultReturn(Integer result) {
+                        public void onResultReturn(@NotNull Integer result) {
                             Log.d(TAG, "插入行ID（老师表）：" + result);
-                            flag = true;
-                            Toast.makeText(MainActivity.this, "插入教师表完毕:" + flag, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "插入老师表完毕:" + flag, Toast.LENGTH_SHORT).show();
+                            mInfoTv.setText(String.format(getString(R.string.operation_info), "插入新的老师：id为" + result));
                         }
                     });
-            Log.d("activity", "current Thread: " + android.os.Process.myTid());
-            Toast.makeText(MainActivity.this, "是否存在：" + isExist, Toast.LENGTH_SHORT).show();
-//            textView.setText("查询中");
-//            Toast.makeText(MainActivity.this, "插入教师表:" + flag, Toast.LENGTH_SHORT).show();
-
-//            GoldSQLite.INSTANCE.getQueryOperation("demo2", Teacher.class)
-//                    .build()
-//                    .execute(new ABaseDbOperation.OnDaoFinishedCallback<List<Teacher>>() {
-//                        @Override
-//                        public void onResultReturn(List<Teacher> result) {
-//
-//                            if(result != null && result.size() != 0){
-//                                Log.d(TAG, "查询行数：" + result.size());
-//                                for(Teacher student1: result){
-//                                    if(student1 != null){
-//                                        String info = "id: " + student1.getId() + "; 名称:" + student1.getName() + "; 性别：" + student1.getSex();
-////                                                "; 班级：" + student1.getClassz() + "; 成绩:" +student1.getGrade() + "; 家庭：" + student1.getFamily();
-//                                        textView.setText(info);
-//                                    }
-//                                }
-//                            }else {
-//                                Log.d(TAG, "查询行数为0");
-//                            }
-//                        }
-//                    });
         }
     }
 
