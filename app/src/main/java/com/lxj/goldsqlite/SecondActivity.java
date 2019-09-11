@@ -186,7 +186,6 @@ public class SecondActivity extends AppCompatActivity {
                         }
                     }
                 });
-        Toast.makeText(SecondActivity.this, "查询行数进行", Toast.LENGTH_SHORT).show();
     }
 
     @Override

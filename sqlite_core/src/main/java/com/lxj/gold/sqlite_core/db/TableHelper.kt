@@ -166,11 +166,13 @@ object TableHelper {
 //                遍历数据表模型列表
                 for((_, tableModel) in tableModelMap){
 //                    获取数据对应实体类名称（完整包名）
-                    tableModel.getClassName()?.let {
+                    tableModel.getClassName()?.run {
 //                        获取数据对应实体类类型
-                        val classType = Class.forName(it)
+                        val classType = Class.forName(this)
 //                        更新数据表
-                        upgrateTable(db, it, classType)
+                        tableModel.getTableName()?.let {
+                            upgrateTable(db, it, classType)
+                        }
                     }
                 }
             }

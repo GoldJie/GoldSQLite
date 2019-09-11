@@ -3,6 +3,8 @@
 
     <string name="process_info">当前进程Id: %d</string>
     <string name="operation_info">数据库操作信息：%s</string>
+    <string name="student_table">学生表：</string>
+    <string name="teacher_table">老师表：</string>
     <string name="insert_teacher">新增教师</string>
     <string name="insert_student">新增学生</string>
     <string name="update_name">更新姓名</string>

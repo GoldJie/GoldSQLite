@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gold-sqlite>
+    <!-- name -> 数据库名称 -->
+    <!-- version -> 数据库版本 -->
     <database
             name = "demo1"
             version = "1">
+        <!-- 数据表对应实体类（完整包路径）-->
         <table class = "com.lxj.goldsqlite.Student"/>
-        <!--<table class = "com.lxj.simplesqlite.Teacher"/>-->
     </database>
 
+    <!-- external-path -> 本地存储目录 -->
     <database
             name = "demo2"
             version = "1"
